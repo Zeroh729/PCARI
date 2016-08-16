@@ -5,6 +5,7 @@ import android.zeroh729.com.pcari.views.base.BaseActivity;
 
 import org.androidannotations.annotations.EActivity;
 
-@EActivity(R.layout.activity_add_survey)
+@EActivity(R.layout.activity_create_survey)
 public class RateResponsesActivity extends BaseActivity{
+
 }
