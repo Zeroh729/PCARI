@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="32dp"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:gravity="center"
+        style="@style/Base.TextAppearance.AppCompat.Display3"
+        android:text="Thank you for answering!"/>
+
+    <Button
+        android:id="@+id/btn_another_response"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:text="Add another response"/>
+
+    <Button
+        android:id="@+id/btn_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="64dp"
+        android:paddingRight="64dp"
+        android:layout_marginTop="16dp"
+        android:text="Go back home"/>
+
+</LinearLayout>

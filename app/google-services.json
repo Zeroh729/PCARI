@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "819985626591",
+    "firebase_url": "https://pcari-a4a6a.firebaseio.com",
+    "project_id": "pcari-a4a6a",
+    "storage_bucket": "pcari-a4a6a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:819985626591:android:e223d08412d51f3f",
+        "android_client_info": {
+          "package_name": "android.zeroh729.com.pcari"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "819985626591-4344npbbmhc1kht2op6quh8ih0scgu8q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "android.zeroh729.com.pcari",
+            "certificate_hash": "B03720B9AC6AAE1F533371AD89B721AC80BF24B7"
+          }
+        },
+        {
+          "client_id": "819985626591-6sq0ni8b3hmcgqc2fqlp0rlk7nh44p19.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjkXklKeiZfSUoYFWskjviGLjm-2bY5eU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "819985626591-6sq0ni8b3hmcgqc2fqlp0rlk7nh44p19.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
