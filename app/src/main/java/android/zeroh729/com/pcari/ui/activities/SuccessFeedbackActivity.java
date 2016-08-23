@@ -1,13 +1,13 @@
-package android.zeroh729.com.pcari.views.activities;
+package android.zeroh729.com.pcari.ui.activities;
 
 import android.zeroh729.com.pcari.R;
-import android.zeroh729.com.pcari.views.base.BaseActivity;
+import android.zeroh729.com.pcari.ui.base.BaseActivity;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_success_feedback)
-public class SuccessFeedbackActivity extends BaseActivity{
+public class SuccessFeedbackActivity extends BaseActivity {
 
     @Click(R.id.btn_another_response)
     public void onClickAnotherResponse(){

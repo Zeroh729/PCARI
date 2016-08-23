@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".views.activities.MainActivity_"
+        <activity android:name=".ui.activities.MainActivity_"
             android:label="List of Surveys">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -18,16 +18,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".views.activities.CreateSurveyActivity_"
+            android:name=".ui.activities.CreateSurveyActivity_"
             android:label="Create a Survey"/>
         <activity
-            android:name=".views.activities.ManageSurveyActivity_"
+            android:name=".ui.activities.ManageSurveyActivity_"
             android:label="Manage your surveys"/>
         <activity
-            android:name=".views.activities.RateResponsesActivity_"
+            android:name=".ui.activities.RateResponsesActivity_"
             android:label="Rate other's responses"/>
         <activity
-            android:name=".views.activities.SuccessFeedbackActivity_"/>
+            android:name=".ui.activities.SuccessFeedbackActivity_"/>
+        <activity
+            android:name=".ui.activities.AnswerSurveyActivity_"
+            android:label="Answer Survey"/>
 
     </application>
 

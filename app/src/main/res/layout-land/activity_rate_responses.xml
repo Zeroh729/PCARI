@@ -18,19 +18,15 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             tools:layout="@layout/fragment_dataview_chart"
-            android:name="android.zeroh729.com.pcari.views.fragments.DataChartFragment_"/>
+            android:name="android.zeroh729.com.pcari.ui.fragments.DataChartFragment_"/>
 
-        <FrameLayout
+        <fragment
+            android:id="@+id/frag_rate"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1">
-            <fragment
-                android:id="@+id/frag_rate"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:layout="@layout/fragment_rate_response"
-                android:name="android.zeroh729.com.pcari.views.fragments.RateQuestionFragment_"/>
-        </FrameLayout>
+            android:layout_weight="1"
+            tools:layout="@layout/fragment_rate_response"
+            android:name="android.zeroh729.com.pcari.ui.fragments.RateQuestionFragment_"/>
 
     </LinearLayout>
 </LinearLayout>

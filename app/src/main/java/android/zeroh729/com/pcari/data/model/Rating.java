@@ -2,6 +2,7 @@ package android.zeroh729.com.pcari.data.model;
 
 public class Rating {
     private String id;
+    private String responseId;
     private String qualitativeResId;
     private int rating;
 
@@ -27,5 +28,13 @@ public class Rating {
 
     public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    public String getResponseId() {
+        return responseId;
+    }
+
+    public void setResponseId(String responseId) {
+        this.responseId = responseId;
     }
 }

@@ -1,11 +1,34 @@
 package android.zeroh729.com.pcari.data.model.question;
 
-public class QuantitativeQuestion {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class QuantitativeQuestion implements Parcelable{
     private String id;
     private String responseId;
     private int orderNumber;
     private String question;
     private String[] labels;
+
+    protected QuantitativeQuestion(Parcel in) {
+        id = in.readString();
+        responseId = in.readString();
+        orderNumber = in.readInt();
+        question = in.readString();
+        labels = in.createStringArray();
+    }
+
+    public static final Creator<QuantitativeQuestion> CREATOR = new Creator<QuantitativeQuestion>() {
+        @Override
+        public QuantitativeQuestion createFromParcel(Parcel in) {
+            return new QuantitativeQuestion(in);
+        }
+
+        @Override
+        public QuantitativeQuestion[] newArray(int size) {
+            return new QuantitativeQuestion[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -45,5 +68,19 @@ public class QuantitativeQuestion {
 
     public void setLabels(String[] labels) {
         this.labels = labels;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(responseId);
+        dest.writeInt(orderNumber);
+        dest.writeString(question);
+        dest.writeStringArray(labels);
     }
 }

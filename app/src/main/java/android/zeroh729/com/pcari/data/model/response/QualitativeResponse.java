@@ -1,10 +1,32 @@
 package android.zeroh729.com.pcari.data.model.response;
 
-public class QualitativeResponse {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class QualitativeResponse implements Parcelable{
     private String id;
     private String questionId;
     private String responseId;
     private String answer;
+
+    protected QualitativeResponse(Parcel in) {
+        id = in.readString();
+        questionId = in.readString();
+        responseId = in.readString();
+        answer = in.readString();
+    }
+
+    public static final Creator<QualitativeResponse> CREATOR = new Creator<QualitativeResponse>() {
+        @Override
+        public QualitativeResponse createFromParcel(Parcel in) {
+            return new QualitativeResponse(in);
+        }
+
+        @Override
+        public QualitativeResponse[] newArray(int size) {
+            return new QualitativeResponse[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -36,5 +58,18 @@ public class QualitativeResponse {
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(questionId);
+        dest.writeString(responseId);
+        dest.writeString(answer);
     }
 }

@@ -1,12 +1,49 @@
 package android.zeroh729.com.pcari.data.model.question;
 
-public class DemographicQuestion {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class DemographicQuestion implements Parcelable{
     private String id;
     private String responseId;
     private int orderNumber;
     private String question;
     private InputType inputType;
     private String[] choices;
+
+    protected DemographicQuestion(Parcel in) {
+        id = in.readString();
+        responseId = in.readString();
+        orderNumber = in.readInt();
+        question = in.readString();
+        choices = in.createStringArray();
+    }
+
+    public static final Creator<DemographicQuestion> CREATOR = new Creator<DemographicQuestion>() {
+        @Override
+        public DemographicQuestion createFromParcel(Parcel in) {
+            return new DemographicQuestion(in);
+        }
+
+        @Override
+        public DemographicQuestion[] newArray(int size) {
+            return new DemographicQuestion[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(responseId);
+        dest.writeInt(orderNumber);
+        dest.writeString(question);
+        dest.writeStringArray(choices);
+    }
 
     private enum InputType{
         DROPDOWN, NUMBER_FIELD

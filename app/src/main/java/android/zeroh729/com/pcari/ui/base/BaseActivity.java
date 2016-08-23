@@ -1,4 +1,4 @@
-package android.zeroh729.com.pcari.views.base;
+package android.zeroh729.com.pcari.ui.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
