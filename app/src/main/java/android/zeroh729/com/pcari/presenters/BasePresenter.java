@@ -1,6 +1,9 @@
 package android.zeroh729.com.pcari.presenters;
 
 public interface BasePresenter {
+    int onStart = 1;
+    int onStop = 4;
+
     void setup();
     void updateState();
     void setState(int state);

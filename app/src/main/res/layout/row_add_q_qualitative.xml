@@ -17,7 +17,7 @@
             android:text="What is your religion?"/>
 
         <TextView
-            android:id="@+id/et_ratequestion"
+            android:id="@+id/tv_ratequestion"
             style="@style/right_value_add"
             android:text="Ask users to rate how effective is this idea"/>
 

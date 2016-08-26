@@ -9,11 +9,15 @@ import android.zeroh729.com.pcari.presenters.AnswerSurveyPresenter;
 import android.zeroh729.com.pcari.ui.base.BaseActivity;
 
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_answer_survey)
 public class AnswerSurveyActivity extends BaseActivity implements AnswerSurveyPresenter.AnswerSurveyScreen{
+
+    @Extra("survey")
+    Survey survey;
 
     @Override
     public void displaySurveyDetails(Survey survey) {

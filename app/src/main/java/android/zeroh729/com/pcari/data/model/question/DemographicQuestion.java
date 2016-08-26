@@ -11,6 +11,9 @@ public class DemographicQuestion implements Parcelable{
     private InputType inputType;
     private String[] choices;
 
+    public DemographicQuestion() {
+    }
+
     protected DemographicQuestion(Parcel in) {
         id = in.readString();
         responseId = in.readString();
@@ -45,7 +48,7 @@ public class DemographicQuestion implements Parcelable{
         dest.writeStringArray(choices);
     }
 
-    private enum InputType{
+    public enum InputType{
         DROPDOWN, NUMBER_FIELD
     }
 

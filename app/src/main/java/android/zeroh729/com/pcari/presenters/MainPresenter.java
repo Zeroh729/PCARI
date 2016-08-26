@@ -2,14 +2,44 @@ package android.zeroh729.com.pcari.presenters;
 
 import android.zeroh729.com.pcari.data.model.Admin;
 import android.zeroh729.com.pcari.data.model.Survey;
+import android.zeroh729.com.pcari.interactor.FirebaseInteractor.MainSystemImpl;
+
+import java.util.ArrayList;
+
 
 public class MainPresenter implements BasePresenter {
-    public MainSystem system;
-    public MainScreen screen;
+    private MainSystem system;
+    private MainScreen screen;
+
+    public MainPresenter(MainScreen screen) {
+        this.screen = screen;
+        system = new MainSystemImpl();
+    }
 
     @Override
     public void setup() {
-        screen.updateUserView(system.getUser());
+        system.reloadUserData(new Callback() {
+            @Override
+            public void onSuccess() {
+                screen.updateUserView(system.getUser());
+            }
+
+            @Override
+            public void onFail(int errorCode) {
+
+            }
+        });
+        system.fetchSurveyList(new Callback() {
+            @Override
+            public void onSuccess() {
+                screen.updateSurveyList(system.getSurveys());
+            }
+
+            @Override
+            public void onFail(int errorCode) {
+
+            }
+        });
     }
 
     @Override
@@ -19,7 +49,14 @@ public class MainPresenter implements BasePresenter {
 
     @Override
     public void setState(int state) {
-
+        switch (state){
+            case onStart:
+                system.setup();
+                break;
+            case onStop:
+                system.cleanup();
+                break;
+        }
     }
 
     public void onClickCreateSurvey(){
@@ -59,11 +96,13 @@ public class MainPresenter implements BasePresenter {
         screen.updateUserView(system.getUser());
     }
 
-    public void onClickSurveyItem(Survey survey){
-        screen.navigateToAnswerSurveyScreen(survey);
+    public void onClickSurveyItem(int index){
+        screen.navigateToAnswerSurveyScreen(system.getSurvey(index));
     }
 
     public interface MainSystem{
+
+        void reloadUserData(Callback callback);
 
         boolean isLoggedIn();
 
@@ -72,6 +111,16 @@ public class MainPresenter implements BasePresenter {
         void logout();
 
         Admin getUser();
+
+        void setup();
+
+        void cleanup();
+
+        Survey getSurvey(int index);
+
+        void fetchSurveyList(Callback callback);
+
+        ArrayList<Survey> getSurveys();
     }
 
     public interface MainScreen{
@@ -90,5 +139,7 @@ public class MainPresenter implements BasePresenter {
         void updateUserView(Admin user);
 
         void navigateToAnswerSurveyScreen(Survey survey);
+
+        void updateSurveyList(ArrayList<Survey> surveys);
     }
 }

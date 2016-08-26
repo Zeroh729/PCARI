@@ -1,9 +1,9 @@
 package android.zeroh729.com.pcari.presenters;
 
-import android.zeroh729.com.pcari.data.model.Survey;
 import android.zeroh729.com.pcari.data.model.question.DemographicQuestion;
+import android.zeroh729.com.pcari.data.model.question.QualitativeQuestion;
 import android.zeroh729.com.pcari.data.model.question.QuantitativeQuestion;
-import android.zeroh729.com.pcari.data.model.response.QualitativeResponse;
+import android.zeroh729.com.pcari.interactor.FirebaseInteractor.CreateSurveySystemImpl;
 
 import java.util.ArrayList;
 
@@ -11,9 +11,16 @@ public class CreateSurveyPresenter implements BasePresenter {
     public CreateSurveySystem system;
     public CreateSurveyScreen screen;
 
+    public CreateSurveyPresenter(CreateSurveyScreen screen) {
+        this.screen = screen;
+        system = new CreateSurveySystemImpl();
+    }
+
     @Override
     public void setup() {
-
+        screen.updateDemoList(system.getDemographicQuestions());
+        screen.updateQualList(system.getQualtitativeQuestions());
+        screen.updateQuanList(system.getQuantitativeQuestions());
     }
 
     @Override
@@ -31,18 +38,8 @@ public class CreateSurveyPresenter implements BasePresenter {
     }
 
     public void onSubmitDemographicQ(final DemographicQuestion q){
-        system.checkAddedDemographicQ(q, new Callback() {
-            @Override
-            public void onSuccess() {
-                system.addDemographicQ(q);
-                screen.updateList(system.getDemographicQuestions());
-            }
-
-            @Override
-            public void onFail(int errorCode) {
-
-            }
-        });
+        system.addDemographicQ(q);
+        screen.updateDemoList(system.getDemographicQuestions());
     }
 
     public void onClickAddQuantitativeQ(){
@@ -50,78 +47,80 @@ public class CreateSurveyPresenter implements BasePresenter {
     }
 
     public void onSubmitQuantitativeQ(final QuantitativeQuestion q){
-        system.checkAddedQuantitativeQ(q, new Callback() {
-            @Override
-            public void onSuccess() {
-                system.addQuantitativeQ(q);
-                screen.updateList(system.getQuantitativeQuestions());
-            }
-
-            @Override
-            public void onFail(int errorCode) {
-
-            }
-        });
+        system.addQuantitativeQ(q);
+        screen.updateQuanList(system.getQuantitativeQuestions());
     }
 
     public void onClickAddQualitativeQ(){
         screen.showAddQualitativeForm();
     }
 
-    public void onSubmitQualtitativeQ(final QualitativeResponse q){
-        system.checkAddedQualtitativeQ(q, new Callback() {
+    public void onSubmitQualtitativeQ(final QualitativeQuestion q){
+        system.addQualtitativeQ(q);
+        screen.updateQualList(system.getQualtitativeQuestions());
+    }
+
+    public void onClickSubmitSurvey(String surveyName){
+        if(surveyName.trim().isEmpty()){
+            screen.showError("Survey name should not be empty!");
+            return;
+        }
+        if(system.getDemographicQuestions().size() < 1){
+            screen.showError("Add at least 1 demographic question!");
+            return;
+        }
+
+        if(system.getQuantitativeQuestions().size() < 6){
+            screen.showError("Add at least 6 quantitative questions!");
+            return;
+        }
+
+        if(system.getQualtitativeQuestions().size() < 1){
+            screen.showError("Add at least 1 qualitative question!");
+            return;
+        }
+
+        system.setSurveyName(surveyName);
+        screen.showLoadingUploadSurvey();
+        system.uploadSurvey(new Callback() {
             @Override
             public void onSuccess() {
-                system.addQualtitativeQ(q);
-                screen.updateList(system.getQualtitativeQuestions());
+                screen.hideLoadingUploadSurvey();
+                screen.navigateToManageMySurveys();
             }
 
             @Override
             public void onFail(int errorCode) {
-
+                screen.hideLoadingUploadSurvey();
             }
         });
     }
 
-    public void onClickSubmitSurvey(String surveyName){
-        system.setSurveyName(surveyName);
-        if(system.getDemographicQuestions().size() >= 1 && system.getQuantitativeQuestions().size() >= 6 && system.getQualtitativeQuestions().size() >= 1){
-            screen.showLoadingUploadSurvey();
-            system.uploadSurvey(new Callback() {
-                @Override
-                public void onSuccess() {
-                    screen.hideLoadingUploadSurvey();
-                    screen.navigateToManageMySurveys();
-                }
+    public ArrayList<DemographicQuestion> getDemoQuestions(){
+        return system.getDemographicQuestions();
+    }
 
-                @Override
-                public void onFail(int errorCode) {
-                    screen.hideLoadingUploadSurvey();
-                }
-            });
-        }
+    public ArrayList<QualitativeQuestion> getQualQuestions(){
+        return system.getQualtitativeQuestions();
+    }
+
+    public ArrayList<QuantitativeQuestion> getQuanQuestions(){
+        return system.getQuantitativeQuestions();
     }
 
 
     public interface CreateSurveySystem{
-
         void addDemographicQ(DemographicQuestion q);
-
-        void checkAddedDemographicQ(DemographicQuestion q, Callback callback);
-
-        ArrayList<DemographicQuestion> getDemographicQuestions();
 
         void addQuantitativeQ(QuantitativeQuestion q);
 
-        ArrayList<DemographicQuestion> getQualtitativeQuestions();
+        void addQualtitativeQ(QualitativeQuestion q);
 
-        void addQualtitativeQ(QualitativeResponse q);
+        ArrayList<DemographicQuestion> getDemographicQuestions();
 
-        void checkAddedQualtitativeQ(QualitativeResponse q, Callback callback);
+        ArrayList<QualitativeQuestion> getQualtitativeQuestions();
 
-        ArrayList<DemographicQuestion> getQuantitativeQuestions();
-
-        void checkAddedQuantitativeQ(QuantitativeQuestion q, Callback callback);
+        ArrayList<QuantitativeQuestion> getQuantitativeQuestions();
 
         void uploadSurvey(Callback callback);
 
@@ -135,12 +134,16 @@ public class CreateSurveyPresenter implements BasePresenter {
 
         void showAddQualitativeForm();
 
-        void updateList(ArrayList<DemographicQuestion> demographicQuestions);
+        void updateDemoList(ArrayList<DemographicQuestion> demographicQuestions);
+        void updateQuanList(ArrayList<QuantitativeQuestion> quantitativeQuestions);
+        void updateQualList(ArrayList<QualitativeQuestion> qualitativeQuestions);
 
         void showLoadingUploadSurvey();
 
         void hideLoadingUploadSurvey();
 
         void navigateToManageMySurveys();
+
+        void showError(String s);
     }
 }

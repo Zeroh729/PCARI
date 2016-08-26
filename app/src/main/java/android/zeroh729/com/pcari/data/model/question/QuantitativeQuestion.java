@@ -10,6 +10,9 @@ public class QuantitativeQuestion implements Parcelable{
     private String question;
     private String[] labels;
 
+    public QuantitativeQuestion() {
+    }
+
     protected QuantitativeQuestion(Parcel in) {
         id = in.readString();
         responseId = in.readString();
