@@ -11,6 +11,14 @@ public class SurveyResponse {
     private ArrayList<DemographicResponse> demographicResponses;
     private ArrayList<QualitativeResponse> qualitativeResponses;
     private ArrayList<QuantitativeResponse> quantitativeResponses;
+    private String dateCreated;
+
+    public SurveyResponse() {
+        demographicResponses = new ArrayList<>();
+        qualitativeResponses = new ArrayList<>();
+        quantitativeResponses = new ArrayList<>();
+
+    }
 
     public String getId() {
         return id;
@@ -50,5 +58,9 @@ public class SurveyResponse {
 
     public void setQuantitativeResponses(ArrayList<QuantitativeResponse> quantitativeResponses) {
         this.quantitativeResponses = quantitativeResponses;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
     }
 }

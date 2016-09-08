@@ -5,15 +5,17 @@ import android.zeroh729.com.pcari.data.model.question.DemographicQuestion;
 import android.zeroh729.com.pcari.data.model.question.QualitativeQuestion;
 import android.zeroh729.com.pcari.data.model.question.QuantitativeQuestion;
 import android.zeroh729.com.pcari.data.model.response.SurveyResponse;
+import android.zeroh729.com.pcari.interactor.FirebaseInteractor.AnswerSurveySystemImpl;
 
 import java.util.ArrayList;
 
 public class AnswerSurveyPresenter implements BasePresenter{
-    public AnswerSurveySystem system;
+    public AnswerSurveySystemImpl system;
     public AnswerSurveyScreen screen;
 
     public AnswerSurveyPresenter(AnswerSurveyScreen screen, Survey survey) {
         this.screen = screen;
+        system = new AnswerSurveySystemImpl();
         system.setSurvey(survey);
     }
 
@@ -63,6 +65,18 @@ public class AnswerSurveyPresenter implements BasePresenter{
         });
     }
 
+    public ArrayList<DemographicQuestion> getDemoQuestions(){
+        return system.getDemographicQuestions();
+    }
+
+    public ArrayList<QualitativeQuestion> getQualQuestions(){
+        return system.getQualtitativeQuestions();
+    }
+
+    public ArrayList<QuantitativeQuestion> getQuanQuestions(){
+        return system.getQuantitativeQuestions();
+    }
+
     public interface AnswerSurveySystem{
         void loadSurveyQuestions(FetchCallback fetchCallback);
 
@@ -71,6 +85,12 @@ public class AnswerSurveyPresenter implements BasePresenter{
         void setSurvey(Survey survey);
 
         void uploadsResponse(SurveyResponse response, Callback callback);
+
+        ArrayList<DemographicQuestion> getDemographicQuestions();
+
+        ArrayList<QualitativeQuestion> getQualtitativeQuestions();
+
+        ArrayList<QuantitativeQuestion> getQuantitativeQuestions();
 
         interface FetchCallback{
             void onSuccess(Survey survey);

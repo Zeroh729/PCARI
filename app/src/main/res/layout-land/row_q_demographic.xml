@@ -8,19 +8,18 @@
     <TextView
         android:id="@+id/tv_question"
         style="@style/left_question"
-        android:text="What is your religion?"
         />
 
     <EditText
         android:id="@+id/et_value"
         style="@style/bottom_value"
-        android:visibility="gone"
         android:inputType="number"
-        android:text="22"/>
+        android:layout_weight="0.6"/>
 
     <android.support.v7.widget.AppCompatSpinner
         android:id="@+id/sp_value"
         style="@style/bottom_value"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:layout_weight="0.6"/>
 
 </LinearLayout>

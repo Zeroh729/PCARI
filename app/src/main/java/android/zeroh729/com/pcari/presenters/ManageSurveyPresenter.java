@@ -25,6 +25,10 @@ public class ManageSurveyPresenter implements BasePresenter {
 
     }
 
+    public ArrayList<Survey> getSurveys(){
+        return system.getSurveys();
+    }
+
     public void onSelectSurvey(Survey survey){
         screen.displaySurveyDetails(survey);
         system.loadResponses(survey, new ManageSurveySystem.FetchCallback() {
@@ -43,6 +47,8 @@ public class ManageSurveyPresenter implements BasePresenter {
 
     public interface ManageSurveySystem{
         void loadResponses(Survey survey, FetchCallback fetchCallback);
+
+        ArrayList<Survey> getSurveys();
 
         interface FetchCallback{
             void onSuccess(ArrayList<SurveyResponse> responses);

@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
+apply plugin: 'realm-android'
 def AAVersion = '4.0.0'
 def SUPPORT_LIBRARY_VERSION = '23.0.0'
 

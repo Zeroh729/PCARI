@@ -22,10 +22,12 @@
             android:label="Create a Survey"/>
         <activity
             android:name=".ui.activities.ManageSurveyActivity_"
-            android:label="Manage your surveys"/>
+            android:label="Manage your surveys">
+        </activity>
         <activity
             android:name=".ui.activities.RateResponsesActivity_"
-            android:label="Rate other's responses"/>
+            android:label="Rate other's responses">
+        </activity>
         <activity
             android:name=".ui.activities.SuccessFeedbackActivity_"/>
         <activity

@@ -9,6 +9,7 @@ public class QualitativeQuestion implements Parcelable{
     private int orderNumber;
     private String question;
     private String questionForRating;
+    private int ratingRange;
 
     public QualitativeQuestion() {
     }
@@ -19,6 +20,7 @@ public class QualitativeQuestion implements Parcelable{
         orderNumber = in.readInt();
         question = in.readString();
         questionForRating = in.readString();
+        ratingRange = in.readInt();
     }
 
     public static final Creator<QualitativeQuestion> CREATOR = new Creator<QualitativeQuestion>() {
@@ -73,6 +75,14 @@ public class QualitativeQuestion implements Parcelable{
         this.questionForRating = questionForRating;
     }
 
+    public int getRatingRange() {
+        return ratingRange;
+    }
+
+    public void setRatingRange(int ratingRange) {
+        this.ratingRange = ratingRange;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -85,5 +95,6 @@ public class QualitativeQuestion implements Parcelable{
         dest.writeInt(orderNumber);
         dest.writeString(question);
         dest.writeString(questionForRating);
+        dest.writeInt(ratingRange);
     }
 }

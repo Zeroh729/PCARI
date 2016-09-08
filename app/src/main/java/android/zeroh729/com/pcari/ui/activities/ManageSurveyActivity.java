@@ -34,7 +34,7 @@ public class ManageSurveyActivity extends BaseActivityDetailsList<Survey> implem
     @Override
     protected ArrayList<Survey> fetchData() {
         if(surveys == null){
-            surveys = getDummyData();
+//            surveys = presenter.getSurveys();
         }
         return surveys;
     }
@@ -60,17 +60,24 @@ public class ManageSurveyActivity extends BaseActivityDetailsList<Survey> implem
         if(frag_details != null && ScreenUtil.isScreenLandscape(this)){
             frag_details.bind(getSelectedData());
         }else{
-            Bundle args = new Bundle();
-            args.putParcelable("survey", getSelectedData());
+            if(getSelectedData() != null) {
+                Bundle args = new Bundle();
+                args.putParcelable("survey", getSelectedData());
+                ManageSurveyDetailsFragment newFrag_details = new ManageSurveyDetailsFragment_();
+                newFrag_details.setArguments(args);
 
-            ManageSurveyDetailsFragment newFrag_details = new ManageSurveyDetailsFragment_();
-            newFrag_details.setArguments(args);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, newFrag_details, "new one")
+                        .addToBackStack(null)
+                        .commit();
+            }
 
-            getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, newFrag_details, "new one")
-                .addToBackStack(null)
-                .commit();
         }
+    }
+
+    @Override
+    protected void displayNoViewSelected() {
+
     }
 
     private ArrayList<Survey> getDummyData(){
@@ -87,9 +94,7 @@ public class ManageSurveyActivity extends BaseActivityDetailsList<Survey> implem
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if(frag_details == null){
-            onActivityItemSelect(-1);
-        }
+        onItemSelect(-1);
     }
 
     @Override

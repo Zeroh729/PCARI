@@ -22,7 +22,14 @@ public class Survey implements Parcelable {
     private ArrayList<QualitativeQuestion> qualitativeQs;
 
     public Survey() {
-
+        id = "";
+        adminID = "";
+        isAvailable = false;
+        name = "";
+        objective = "";
+        demographicQs = new ArrayList<>();
+        quantitativeQs = new ArrayList<>();
+        qualitativeQs = new ArrayList<>();
     }
 
     protected Survey(Parcel in) {
@@ -31,6 +38,9 @@ public class Survey implements Parcelable {
         isAvailable = in.readByte() != 0;
         name = in.readString();
         objective = in.readString();
+        demographicQs = in.createTypedArrayList(DemographicQuestion.CREATOR);
+        quantitativeQs = in.createTypedArrayList(QuantitativeQuestion.CREATOR);
+        qualitativeQs = in.createTypedArrayList(QualitativeQuestion.CREATOR);
     }
 
     public static final Creator<Survey> CREATOR = new Creator<Survey>() {

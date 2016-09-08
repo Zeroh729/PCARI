@@ -13,6 +13,15 @@ import java.util.ArrayList;
 
 @EFragment
 public abstract class BaseFragmentList<T extends Parcelable> extends Fragment  implements BaseAdapterRecyclerView.ClickListener{
+    private FragmentLoadCallback callback;
+
+    public FragmentLoadCallback getCallback() {
+        return callback;
+    }
+
+    public void setCallback(FragmentLoadCallback callback) {
+        this.callback = callback;
+    }
 
     @AfterViews
     public void afterviews(){

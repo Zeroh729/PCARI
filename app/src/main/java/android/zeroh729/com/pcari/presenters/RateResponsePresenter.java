@@ -4,21 +4,24 @@ import android.zeroh729.com.pcari.data.model.Coordinates;
 import android.zeroh729.com.pcari.data.model.Rating;
 import android.zeroh729.com.pcari.data.model.Survey;
 import android.zeroh729.com.pcari.data.model.response.QualitativeResponse;
+import android.zeroh729.com.pcari.interactor.FirebaseInteractor.RateResponseSystemImpl;
 
 import java.util.ArrayList;
 
 public class RateResponsePresenter implements BasePresenter {
-    private RateResponseSystem system;
+    private RateResponseSystemImpl system;
     private RateResponseScreen screen;
 
-    public RateResponsePresenter(RateResponseScreen screen, Survey survey){
+    public RateResponsePresenter(RateResponseScreen screen, Survey survey, String responseId){
         this.screen = screen;
-        screen.displaySurveyDetails(survey);
+        system = new RateResponseSystemImpl();
         system.setSurvey(survey);
+        system.setResponseId(responseId);
     }
 
     @Override
     public void setup() {
+        screen.displaySurveyDetails(system.getSurvey());
         screen.displayLoadingIndicator();
         system.loadCoordinates(new RateResponseSystem.CoordinatesFetchCallback() {
             @Override
@@ -60,12 +63,14 @@ public class RateResponsePresenter implements BasePresenter {
         });
     }
 
-    public void onClickRateResponseSubmit(ArrayList<Rating> ratings){
-        system.uploadRatings(ratings, new Callback() {
+    public void onClickRateResponseSubmit(String selectedResponseId, ArrayList<Rating> ratings){
+        system.uploadRatings(selectedResponseId, ratings, new Callback() {
             @Override
             public void onSuccess() {
                 screen.successUploadFeedback();
-                if(system.hasAnswered2Surveys()){
+                system.incrementAnswerCount();
+                if((system.getCoordinates().size() >= 2 && system.getAnswerCount() >= 2)
+                        || system.getCoordinates().size() < 2){
                     screen.navigateToSuccessScreen();
                 }else{
                     screen.hideResponse();
@@ -79,6 +84,10 @@ public class RateResponsePresenter implements BasePresenter {
         });
     }
 
+    public ArrayList<Coordinates> getCoordinates() {
+        return system.getCoordinates();
+    }
+
     public interface RateResponseSystem{
 
         void setSurvey(Survey survey);
@@ -87,9 +96,17 @@ public class RateResponsePresenter implements BasePresenter {
 
         void loadResponse(Coordinates coordinate, ResponseFetchCallback responseFetchCallback);
 
-        boolean hasAnswered2Surveys();
+        void uploadRatings(String responseId, ArrayList<Rating> ratings, Callback callback);
 
-        void uploadRatings(ArrayList<Rating> ratings, Callback callback);
+        void setResponseId(String responseId);
+
+        ArrayList<Coordinates> getCoordinates();
+
+        int getAnswerCount();
+
+        void incrementAnswerCount();
+
+        Survey getSurvey();
 
         interface CoordinatesFetchCallback {
             void onSuccess(ArrayList<Coordinates> coordinates);

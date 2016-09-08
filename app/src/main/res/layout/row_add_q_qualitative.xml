@@ -21,5 +21,10 @@
             style="@style/right_value_add"
             android:text="Ask users to rate how effective is this idea"/>
 
+        <TextView
+            android:id="@+id/tv_rateRange"
+            style="@style/right_value_add"
+            android:text="@string/add_qualq_label_ratingrange"/>
+
     </LinearLayout>
 </android.support.v7.widget.CardView>

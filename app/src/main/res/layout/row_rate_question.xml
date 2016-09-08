@@ -9,13 +9,30 @@
         android:id="@+id/tv_question"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Base.TextAppearance.AppCompat.Headline"
-        android:text="I think poverty can be solved by Dutertards"
+        style="@style/Base.TextAppearance.AppCompat.Body1"
+        android:text="Question"
         android:layout_margin="16dp"/>
 
-    <SeekBar
-        android:id="@+id/sb_rating"
+    <TextView
+        android:id="@+id/tv_response"
         android:layout_width="match_parent"
-        android:layout_height="32dp" />
+        android:layout_height="wrap_content"
+        style="@style/Base.TextAppearance.AppCompat.Headline"
+        android:text="To solve poverty"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"/>
+
+    <TextView
+        android:id="@+id/tv_questionForRating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Base.TextAppearance.AppCompat.Subhead"
+        android:text="How much o you agree with this?"
+        android:layout_margin="16dp"/>
+
+    <RadioGroup
+        android:id="@+id/rg_rating"
+        style="@style/bottom_value.radioButton">
+    </RadioGroup>
 
 </LinearLayout>

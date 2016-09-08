@@ -12,12 +12,22 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MainSystemImpl  implements MainPresenter.MainSystem{
     private FirebaseAuth.AuthStateListener listener;
     private ArrayList<Survey> surveys;
+
+    public MainSystemImpl() {
+        surveys = new ArrayList<>();
+    }
 
     @Override
     public void reloadUserData(final BasePresenter.Callback callback) {
@@ -83,8 +93,45 @@ public class MainSystemImpl  implements MainPresenter.MainSystem{
     }
 
     @Override
-    public void fetchSurveyList(BasePresenter.Callback callback) {
+    public void fetchSurveyList(final BasePresenter.Callback callback) {
+        FirebaseDatabase.getInstance().getReference().child(DbConstants.CHILD_SURVEY).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                HashMap map = (HashMap)dataSnapshot.getValue();
+                String adminId = map.get(DbConstants.KEY_ADMIN_ID).toString();
+                String name = map.get(DbConstants.KEY_SURVEY_NAME).toString();
+                String details = map.get(DbConstants.KEY_SURVEY_DETAILS).toString();
+                boolean isAvailable = (boolean)map.get(DbConstants.KEY_ISAVAILABLE);
+                Survey survey = new Survey();
+                survey.setId(dataSnapshot.getKey());
+                survey.setName(name);
+                survey.setAdminID(adminId);
+                survey.setObjective(details);
+                survey.setAvailable(isAvailable);
+                surveys.add(survey);
+                callback.onSuccess();
+            }
 
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override

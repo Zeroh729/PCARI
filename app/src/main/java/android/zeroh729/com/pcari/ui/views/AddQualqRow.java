@@ -19,6 +19,9 @@ public class AddQualqRow extends CardView{
     @ViewById(R.id.tv_ratequestion)
     TextView tv_questionForRating;
 
+    @ViewById(R.id.tv_rateRange)
+    TextView tv_ratingRange;
+
     public AddQualqRow(Context context) {
         super(context);
     }
@@ -34,5 +37,7 @@ public class AddQualqRow extends CardView{
     public void bind(QualitativeQuestion q){
         tv_question.setText(q.getQuestion());
         tv_questionForRating.setText(q.getQuestionForRating());
+        String label = getResources().getString(R.string.add_qualq_label_ratingrange) + " " + q.getRatingRange();
+        tv_ratingRange.setText(label);
     }
 }

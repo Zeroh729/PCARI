@@ -14,6 +14,9 @@ import android.zeroh729.com.pcari.ui.dialogs.LoginDialog;
 import android.zeroh729.com.pcari.ui.dialogs.LoginDialog_;
 import android.zeroh729.com.pcari.util._;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
@@ -34,14 +37,27 @@ public class MainActivity extends BaseActivity implements MainPresenter.MainScre
     @Bean
     PublicSurveyListAdapter adapter;
 
-    LoginDialog loginDialog;
+    private LoginDialog loginDialog;
+    private final String fragLoginTag = "LoginFrag";
 
     @AfterViews
     public void afterviews(){
         presenter = new MainPresenter(this);
+        presenter.setup();
         adapter.setClickListener(this);
         rv_surveys.setLayoutManager(new LinearLayoutManager(this));
         rv_surveys.setAdapter(adapter);
+
+        loginDialog = (LoginDialog)getSupportFragmentManager().findFragmentByTag(fragLoginTag);
+        if(loginDialog == null){
+            loginDialog = new LoginDialog_.FragmentBuilder_().build();
+            loginDialog.setListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    presenter.onClickLogin(loginDialog.getEt_username().getText().toString(), loginDialog.getEt_password().getText().toString());
+                }
+            });
+        }
     }
 
     @OptionsItem(R.id.item_create_survey)
@@ -66,13 +82,6 @@ public class MainActivity extends BaseActivity implements MainPresenter.MainScre
 
     @Override
     public void showLoginPrompt() {
-        loginDialog = new LoginDialog_.FragmentBuilder_().build();
-        loginDialog.setListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.onClickLogin(loginDialog.getEt_username().getText().toString(), loginDialog.getEt_password().getText().toString());
-            }
-        });
         loginDialog.show(getSupportFragmentManager(), "");
     }
 
@@ -103,7 +112,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.MainScre
 
     @Override
     public void updateUserView(Admin user) {
-
+        _.showToast("Welcome" + (!user.getEmail().isEmpty() ? "" : " " + user.getEmail()));
     }
 
     @Override

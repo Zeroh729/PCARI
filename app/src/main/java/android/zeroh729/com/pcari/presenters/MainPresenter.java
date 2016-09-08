@@ -3,6 +3,7 @@ package android.zeroh729.com.pcari.presenters;
 import android.zeroh729.com.pcari.data.model.Admin;
 import android.zeroh729.com.pcari.data.model.Survey;
 import android.zeroh729.com.pcari.interactor.FirebaseInteractor.MainSystemImpl;
+import android.zeroh729.com.pcari.util._;
 
 import java.util.ArrayList;
 
@@ -37,7 +38,7 @@ public class MainPresenter implements BasePresenter {
 
             @Override
             public void onFail(int errorCode) {
-
+                _.showToast("error");
             }
         });
     }

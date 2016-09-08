@@ -10,13 +10,8 @@
         />
 
     <RadioGroup
-        android:id="@+id/et_value"
-        style="@style/bottom_value"
-        android:orientation="horizontal"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
-        android:gravity="center"
-        android:divider="?android:attr/dividerHorizontal">
+        android:id="@+id/rg_labels"
+        style="@style/bottom_value.radioButton">
     </RadioGroup>
 
 </LinearLayout>

@@ -40,12 +40,19 @@ public abstract class BaseActivityDetailsList<T extends Parcelable> extends Base
 
     abstract protected ArrayList<T> fetchData();
     abstract protected void onActivityItemSelect(int index);
+    abstract protected void displayNoViewSelected();
 
     public void onItemSelect(int index){
         selectedIndex = index;
         dataList = getDataList();
-        selectedData = getDataList().get(index);
-        onActivityItemSelect(index);
+        if(index != -1) {
+            selectedData = getDataList().get(index);
+            onActivityItemSelect(index);
+        }
+        else {
+            selectedData = null;
+            displayNoViewSelected();
+        }
     }
 
     @Override

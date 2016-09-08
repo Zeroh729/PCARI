@@ -2,27 +2,14 @@ package android.zeroh729.com.pcari.ui.activities;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.zeroh729.com.pcari.R;
-import android.zeroh729.com.pcari.data.model.Admin;
-import android.zeroh729.com.pcari.data.model.Survey;
 import android.zeroh729.com.pcari.data.model.question.DemographicQuestion;
 import android.zeroh729.com.pcari.data.model.question.QualitativeQuestion;
 import android.zeroh729.com.pcari.data.model.question.QuantitativeQuestion;
-import android.zeroh729.com.pcari.data.model.response.QualitativeResponse;
-import android.zeroh729.com.pcari.data.model.response.QuantitativeResponse;
-import android.zeroh729.com.pcari.presenters.BasePresenter;
 import android.zeroh729.com.pcari.presenters.CreateSurveyPresenter;
-import android.zeroh729.com.pcari.presenters.MainPresenter;
-import android.zeroh729.com.pcari.ui.adapters.AddDemoqListAdapter;
-import android.zeroh729.com.pcari.ui.adapters.AddQualqListAdapter;
-import android.zeroh729.com.pcari.ui.adapters.AddQuanqListAdapter;
 import android.zeroh729.com.pcari.ui.base.BaseActivity;
 import android.zeroh729.com.pcari.ui.dialogs.AddDemoqDialog;
 import android.zeroh729.com.pcari.ui.dialogs.AddDemoqDialog_;
@@ -39,7 +26,6 @@ import android.zeroh729.com.pcari.ui.views.AddQuanqRow_;
 import android.zeroh729.com.pcari.util._;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
@@ -193,8 +179,10 @@ public class CreateSurveyActivity extends BaseActivity implements CreateSurveyPr
 
                 String question = addQualqDialog.getEt_question().getText().toString();
                 String questionForRating = addQualqDialog.getEt_questionForRating().getText().toString();
+                int ratingRange = addQualqDialog.getSb_ratingRange().getProgress() + 1;
                 q.setQuestion(question);
                 q.setQuestionForRating(questionForRating);
+                q.setRatingRange(ratingRange);
                 presenter.onSubmitQualtitativeQ(q);
             }
         });

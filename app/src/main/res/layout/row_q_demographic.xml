@@ -7,15 +7,13 @@
 
     <TextView
         android:id="@+id/tv_question"
-        style="@style/top_question"
-        android:text="What is your religion?"/>
+        style="@style/top_question"/>
 
     <EditText
         android:id="@+id/et_value"
         style="@style/bottom_value"
         android:visibility="gone"
-        android:inputType="number"
-        android:text="22"/>
+        android:inputType="number"/>
 
     <android.support.v7.widget.AppCompatSpinner
         android:id="@+id/sp_value"
