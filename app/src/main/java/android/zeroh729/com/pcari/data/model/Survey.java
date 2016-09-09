@@ -8,10 +8,12 @@ import android.zeroh729.com.pcari.data.model.question.QuantitativeQuestion;
 
 import java.util.ArrayList;
 
+import io.realm.RealmObject;
+
 /**
  * Created by Admin on 3/8/16.
  */
-public class Survey implements Parcelable {
+public class Survey implements Parcelable{
     private String id;
     private String adminID;
     private boolean isAvailable;

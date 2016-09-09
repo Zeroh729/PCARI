@@ -46,8 +46,10 @@ public class QuestionDemographicRow extends LinearLayout {
         tv_question.setText(q.getQuestion());
         if(q.getInputType() == DemographicQuestion.InputType.NUMBER_FIELD){
             et_value.setVisibility(View.VISIBLE);
+            sp_value.setVisibility(View.GONE);
         }else if(q.getInputType() == DemographicQuestion.InputType.DROPDOWN){
             sp_value.setVisibility(View.VISIBLE);
+            et_value.setVisibility(View.GONE);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item,q.getChoices());
             sp_value.setAdapter(adapter);
         }

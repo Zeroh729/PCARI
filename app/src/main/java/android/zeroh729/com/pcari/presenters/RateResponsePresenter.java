@@ -4,6 +4,7 @@ import android.zeroh729.com.pcari.data.model.Coordinates;
 import android.zeroh729.com.pcari.data.model.Rating;
 import android.zeroh729.com.pcari.data.model.Survey;
 import android.zeroh729.com.pcari.data.model.response.QualitativeResponse;
+import android.zeroh729.com.pcari.data.model.response.SurveyResponse;
 import android.zeroh729.com.pcari.interactor.FirebaseInteractor.RateResponseSystemImpl;
 
 import java.util.ArrayList;
@@ -12,11 +13,11 @@ public class RateResponsePresenter implements BasePresenter {
     private RateResponseSystemImpl system;
     private RateResponseScreen screen;
 
-    public RateResponsePresenter(RateResponseScreen screen, Survey survey, String responseId){
+    public RateResponsePresenter(RateResponseScreen screen, Survey survey, SurveyResponse response){
         this.screen = screen;
         system = new RateResponseSystemImpl();
         system.setSurvey(survey);
-        system.setResponseId(responseId);
+        system.setResponse(response);
     }
 
     @Override
@@ -98,7 +99,7 @@ public class RateResponsePresenter implements BasePresenter {
 
         void uploadRatings(String responseId, ArrayList<Rating> ratings, Callback callback);
 
-        void setResponseId(String responseId);
+        void setResponse(SurveyResponse response);
 
         ArrayList<Coordinates> getCoordinates();
 

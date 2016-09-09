@@ -9,6 +9,7 @@ import android.zeroh729.com.pcari.data.model.Survey;
 import android.zeroh729.com.pcari.data.model.question.DemographicQuestion;
 import android.zeroh729.com.pcari.data.model.question.QualitativeQuestion;
 import android.zeroh729.com.pcari.data.model.response.QualitativeResponse;
+import android.zeroh729.com.pcari.data.model.response.SurveyResponse;
 import android.zeroh729.com.pcari.presenters.RateResponsePresenter;
 import android.zeroh729.com.pcari.ui.base.BaseActivityDetailsList;
 import android.zeroh729.com.pcari.ui.fragments.DataChartFragment;
@@ -44,8 +45,8 @@ public class RateResponsesActivity extends BaseActivityDetailsList<Coordinates> 
     @Extra("survey")
     Survey survey;
 
-    @Extra("responseId")
-    String responseId;
+    @Extra("response")
+    SurveyResponse response;
 
     private DataChartFragment frag_list_portrait;
     private RateQuestionFragment frag_details_portrait;
@@ -54,16 +55,16 @@ public class RateResponsesActivity extends BaseActivityDetailsList<Coordinates> 
     private ArrayList<Coordinates> coordinates;
     private ArrayList<RateResponseRow> rateRowViews;
 
-    private String surveyKey = "survey";
-    private String responseKey = "responseId";
-    private String selectedIdKey = "selectedId";
+    private String surveyKey = "surveyKey";
+    private String responseKey = "responseKey";
+    private String selectedIdKey = "selectedIdKey";
     private String coordinatesKey = "coordinatesKey";
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(surveyKey, survey);
-        outState.putString(responseKey, responseId);
+        outState.putParcelable(responseKey, response);
         outState.putString(selectedIdKey, selectedId);
         outState.putParcelableArrayList(coordinatesKey, coordinates);
     }
@@ -74,7 +75,7 @@ public class RateResponsesActivity extends BaseActivityDetailsList<Coordinates> 
 //        getDummyData();
         if(savedInstanceState != null){
             survey = savedInstanceState.getParcelable(surveyKey);
-            responseId = savedInstanceState.getString(responseKey);
+            response = savedInstanceState.getParcelable(responseKey);
             selectedId = savedInstanceState.getString(selectedIdKey);
             coordinates = savedInstanceState.getParcelableArrayList(coordinatesKey);
         }
@@ -110,7 +111,7 @@ public class RateResponsesActivity extends BaseActivityDetailsList<Coordinates> 
             });
         }
 
-        presenter = new RateResponsePresenter(this, survey, responseId);
+        presenter = new RateResponsePresenter(this, survey, response);
         presenter.setup();
 
         if(getSelectedIndex()!=-1){
@@ -162,7 +163,9 @@ public class RateResponsesActivity extends BaseActivityDetailsList<Coordinates> 
         ArrayList<Rating> ratings = new ArrayList<>();
         for(RateResponseRow row : rateRowViews){
             Rating rating = new Rating();
-            rating.setId(responseId);
+            rating.setId(response.getId());
+            rating.setResponseId(response.getId());
+            rating.setQualitativeResId(rateRowViews.indexOf(row)+"");
             rating.setRating(row.getRg_rating().getCheckedRadioButtonId());
             ratings.add(rating);
         }
@@ -261,6 +264,7 @@ public class RateResponsesActivity extends BaseActivityDetailsList<Coordinates> 
     @Override
     public void successUploadFeedback() {
         _.showToast("Feedback sent!");
+        //TODO: sendBroadcast to upload new survey
     }
 
     private RateQuestionFragment getFragRate(){
@@ -286,6 +290,7 @@ public class RateResponsesActivity extends BaseActivityDetailsList<Coordinates> 
         qs.add(q2);
         survey.setQualitativeQs(qs);
         survey.setName("Calamity Survey 1");
-        responseId = "-KQT0_LKjZe1aDcPgM-G";
+        response = new SurveyResponse();
+        response.setId("-KQT0_LKjZe1aDcPgM-G");
     }
 }

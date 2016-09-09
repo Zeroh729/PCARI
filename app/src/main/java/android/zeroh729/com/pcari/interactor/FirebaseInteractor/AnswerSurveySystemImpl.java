@@ -143,6 +143,7 @@ public class AnswerSurveySystemImpl implements AnswerSurveyPresenter.AnswerSurve
         isAllSuccessful = true;
 
         final String responseId = responseRef.getKey();
+        response.setId(responseId);
         DateFormat format = new SimpleDateFormat("MMMM dd, yyyy hh:mm:ss");
         responseRef.child(DbConstants.KEY_DATE_CREATED).setValue(format.format(new Date())).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -198,19 +199,4 @@ public class AnswerSurveySystemImpl implements AnswerSurveyPresenter.AnswerSurve
             }
         }
     };
-
-    @Override
-    public ArrayList<DemographicQuestion> getDemographicQuestions() {
-        return survey.getDemographicQs();
-    }
-
-    @Override
-    public ArrayList<QualitativeQuestion> getQualtitativeQuestions() {
-        return survey.getQualitativeQs();
-    }
-
-    @Override
-    public ArrayList<QuantitativeQuestion> getQuantitativeQuestions() {
-        return survey.getQuantitativeQs();
-    }
 }

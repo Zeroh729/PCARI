@@ -3,6 +3,7 @@ package android.zeroh729.com.pcari.presenters;
 import android.zeroh729.com.pcari.data.model.Admin;
 import android.zeroh729.com.pcari.data.model.Survey;
 import android.zeroh729.com.pcari.interactor.FirebaseInteractor.MainSystemImpl;
+import android.zeroh729.com.pcari.interactor.RealmInteractor.MainLocalDatabaseImpl;
 import android.zeroh729.com.pcari.util._;
 
 import java.util.ArrayList;
@@ -11,10 +12,12 @@ import java.util.ArrayList;
 public class MainPresenter implements BasePresenter {
     private MainSystem system;
     private MainScreen screen;
+    private MainLocalDatabase localDatabaseSystem;
 
     public MainPresenter(MainScreen screen) {
         this.screen = screen;
         system = new MainSystemImpl();
+        localDatabaseSystem = new MainLocalDatabaseImpl();
     }
 
     @Override
@@ -34,6 +37,7 @@ public class MainPresenter implements BasePresenter {
             @Override
             public void onSuccess() {
                 screen.updateSurveyList(system.getSurveys());
+                localDatabaseSystem.saveSurveys(system.getSurveys());
             }
 
             @Override
@@ -142,5 +146,9 @@ public class MainPresenter implements BasePresenter {
         void navigateToAnswerSurveyScreen(Survey survey);
 
         void updateSurveyList(ArrayList<Survey> surveys);
+    }
+
+    public interface MainLocalDatabase{
+        void saveSurveys(ArrayList<Survey> surveys);
     }
 }

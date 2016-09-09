@@ -8,6 +8,7 @@ import android.zeroh729.com.pcari.data.model.response.SurveyResponse;
 import android.zeroh729.com.pcari.interactor.FirebaseInteractor.AnswerSurveySystemImpl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class AnswerSurveyPresenter implements BasePresenter{
     public AnswerSurveySystemImpl system;
@@ -65,18 +66,6 @@ public class AnswerSurveyPresenter implements BasePresenter{
         });
     }
 
-    public ArrayList<DemographicQuestion> getDemoQuestions(){
-        return system.getDemographicQuestions();
-    }
-
-    public ArrayList<QualitativeQuestion> getQualQuestions(){
-        return system.getQualtitativeQuestions();
-    }
-
-    public ArrayList<QuantitativeQuestion> getQuanQuestions(){
-        return system.getQuantitativeQuestions();
-    }
-
     public interface AnswerSurveySystem{
         void loadSurveyQuestions(FetchCallback fetchCallback);
 
@@ -85,12 +74,6 @@ public class AnswerSurveyPresenter implements BasePresenter{
         void setSurvey(Survey survey);
 
         void uploadsResponse(SurveyResponse response, Callback callback);
-
-        ArrayList<DemographicQuestion> getDemographicQuestions();
-
-        ArrayList<QualitativeQuestion> getQualtitativeQuestions();
-
-        ArrayList<QuantitativeQuestion> getQuantitativeQuestions();
 
         interface FetchCallback{
             void onSuccess(Survey survey);

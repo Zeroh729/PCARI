@@ -57,11 +57,9 @@ public class AnswerSurveyActivity extends BaseActivity implements AnswerSurveyPr
     HashMap<QualitativeQuestion, QuestionQualitativeRow> qualRowViews;
 
     private final String surveyKey = "surveyKey";
-    private final String demoKey = "demoKey";
-    private final String quanKey = "quanKey";
-    private final String qualKey = "qualKey";
+    private final String responseKey = "responseKey";
 
-    private String responseId = "";
+    private SurveyResponse response;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,6 +70,7 @@ public class AnswerSurveyActivity extends BaseActivity implements AnswerSurveyPr
 
         if(savedInstanceState != null){
             survey = savedInstanceState.getParcelable(surveyKey);
+            response = savedInstanceState.getParcelable(responseKey);
         }
     }
 
@@ -79,9 +78,7 @@ public class AnswerSurveyActivity extends BaseActivity implements AnswerSurveyPr
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(surveyKey, survey);
-        outState.putParcelableArrayList(demoKey, presenter.getDemoQuestions());
-        outState.putParcelableArrayList(qualKey, presenter.getQualQuestions());
-        outState.putParcelableArrayList(quanKey, presenter.getQuanQuestions());
+        outState.putParcelable(responseKey, response);
     }
 
 
@@ -96,7 +93,7 @@ public class AnswerSurveyActivity extends BaseActivity implements AnswerSurveyPr
 
     @Click(R.id.btn_done)
     public void onClickDone(){
-        SurveyResponse response = new SurveyResponse();
+        response = new SurveyResponse();
 
         for (Map.Entry<DemographicQuestion, QuestionDemographicRow> entry : demoRowViews.entrySet()){
             QuestionDemographicRow rowView = entry.getValue();
@@ -175,7 +172,7 @@ public class AnswerSurveyActivity extends BaseActivity implements AnswerSurveyPr
 
     @Override
     public void navigateToRateResponseScreen() {
-        RateResponsesActivity_.intent(this).extra("survey", survey).extra("responseId",responseId).start();
+        RateResponsesActivity_.intent(this).extra("survey", survey).extra("response", response).start();
     }
 
     @Override

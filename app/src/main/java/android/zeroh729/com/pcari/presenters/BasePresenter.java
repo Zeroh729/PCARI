@@ -1,5 +1,7 @@
 package android.zeroh729.com.pcari.presenters;
 
+import java.util.Collections;
+
 public interface BasePresenter {
     int onStart = 1;
     int onStop = 4;

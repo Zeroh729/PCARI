@@ -5,6 +5,7 @@ import android.zeroh729.com.pcari.data.model.Coordinates;
 import android.zeroh729.com.pcari.data.model.Rating;
 import android.zeroh729.com.pcari.data.model.Survey;
 import android.zeroh729.com.pcari.data.model.response.QualitativeResponse;
+import android.zeroh729.com.pcari.data.model.response.SurveyResponse;
 import android.zeroh729.com.pcari.presenters.BasePresenter;
 import android.zeroh729.com.pcari.presenters.RateResponsePresenter;
 
@@ -22,9 +23,9 @@ import java.util.HashMap;
 
 public class RateResponseSystemImpl implements RateResponsePresenter.RateResponseSystem {
     private Survey survey;
+    private SurveyResponse response;
     private ArrayList<Coordinates> coordinates;
     private ArrayList<QualitativeResponse> selectedResponse;
-    private String responseId;
     private int answerCounter = 0;
 
     public RateResponseSystemImpl() {
@@ -41,9 +42,13 @@ public class RateResponseSystemImpl implements RateResponsePresenter.RateRespons
         return survey;
     }
 
+    public SurveyResponse getResponse() {
+        return response;
+    }
+
     @Override
-    public void setResponseId(String responseId) {
-        this.responseId = responseId;
+    public void setResponse(SurveyResponse response) {
+        this.response = response;
     }
 
     @Override
@@ -75,7 +80,7 @@ public class RateResponseSystemImpl implements RateResponsePresenter.RateRespons
                 coordinate.setX(x);
                 coordinate.setY(y);
 
-                if(!responseId.equals(id))
+                if(!response.getId().equals(id))
                     coordinates.add(coordinate);
                 fetchCallback.onSuccess(coordinates);
             }
@@ -132,17 +137,19 @@ public class RateResponseSystemImpl implements RateResponsePresenter.RateRespons
 
     @Override
     public void uploadRatings(String selectedResponseId, ArrayList<Rating> ratings, final BasePresenter.Callback callback) {
-        HashMap map = new HashMap();
-        for(int i = 0; i < ratings.size(); i++){
-            map.put(i, ratings.get(i).getRating());
-        }
-
         ArrayList<Integer> ratingsList = new ArrayList<>();
         for(int i = 0; i < ratings.size(); i++){
             ratingsList.add(ratings.get(i).getRating());
+            for(int j = 0; j < response.getRatings().size(); j++) {
+                if (ratings.get(i).getResponseId().equals(response.getRatings().get(j).getResponseId())){
+                    response.getRatings().remove(j);
+                    break;
+                }
+            }
+            response.getRatings().add(ratings.get(i));
         }
 
-        FirebaseDatabase.getInstance().getReference().child(DbConstants.CHILD_RATINGS).child(survey.getId()).child(selectedResponseId).child(responseId).setValue(ratingsList).addOnCompleteListener(new OnCompleteListener<Void>() {
+        FirebaseDatabase.getInstance().getReference().child(DbConstants.CHILD_RATINGS).child(survey.getId()).child(selectedResponseId).child(response.getId()).setValue(ratingsList).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
