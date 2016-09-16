@@ -183,6 +183,12 @@ public class AnswerSurveySystemImpl implements AnswerSurveyPresenter.AnswerSurve
         });
     }
 
+    @Override
+    public void setDateCreated(SurveyResponse response) {
+        SimpleDateFormat format = new SimpleDateFormat("MMMM dd, yyyy hh:mm a");
+        response.setDateCreated(format.format(new Date()));
+    }
+
     private OnCompleteListener onCompleteListener = new OnCompleteListener() {
         @Override
         public void onComplete(@NonNull Task task) {
@@ -199,4 +205,6 @@ public class AnswerSurveySystemImpl implements AnswerSurveyPresenter.AnswerSurve
             }
         }
     };
+
+
 }

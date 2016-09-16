@@ -3,6 +3,9 @@ package android.zeroh729.com.pcari.data.model.question;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+
 public class QuantitativeQuestion implements Parcelable{
     private String id;
     private String responseId;

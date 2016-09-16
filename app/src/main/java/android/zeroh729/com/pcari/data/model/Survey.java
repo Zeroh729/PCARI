@@ -9,18 +9,31 @@ import android.zeroh729.com.pcari.data.model.question.QuantitativeQuestion;
 import java.util.ArrayList;
 
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 
 /**
  * Created by Admin on 3/8/16.
  */
-public class Survey implements Parcelable{
+public class Survey extends RealmObject implements Parcelable{
     private String id;
-    private String adminID;
-    private boolean isAvailable;
     private String name;
+
+    @Ignore
+    private String adminID;
+
+    @Ignore
+    private boolean isAvailable;
+
+    @Ignore
     private String objective;
+
+    @Ignore
     private ArrayList<DemographicQuestion> demographicQs;
+
+    @Ignore
     private ArrayList<QuantitativeQuestion> quantitativeQs;
+
+    @Ignore
     private ArrayList<QualitativeQuestion> qualitativeQs;
 
     public Survey() {

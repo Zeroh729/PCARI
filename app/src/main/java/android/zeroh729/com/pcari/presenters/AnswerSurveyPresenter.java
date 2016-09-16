@@ -52,6 +52,7 @@ public class AnswerSurveyPresenter implements BasePresenter{
 
     public void onClickSubmit(SurveyResponse response){
         screen.showLoadingIndicator();
+        system.setDateCreated(response);
         system.uploadsResponse(response, new Callback() {
             @Override
             public void onSuccess() {
@@ -79,6 +80,8 @@ public class AnswerSurveyPresenter implements BasePresenter{
             void onSuccess(Survey survey);
             void onFail(int errorCode);
         }
+
+        void setDateCreated(SurveyResponse response);
     }
 
     public interface AnswerSurveyScreen{

@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".ui.activities.MainActivity_"
-            android:label="List of Surveys">
+            android:label="PCARI">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

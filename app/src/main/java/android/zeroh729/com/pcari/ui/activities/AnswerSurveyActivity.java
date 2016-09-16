@@ -94,6 +94,7 @@ public class AnswerSurveyActivity extends BaseActivity implements AnswerSurveyPr
     @Click(R.id.btn_done)
     public void onClickDone(){
         response = new SurveyResponse();
+        response.setSurveyId(survey.getId());
 
         for (Map.Entry<DemographicQuestion, QuestionDemographicRow> entry : demoRowViews.entrySet()){
             QuestionDemographicRow rowView = entry.getValue();

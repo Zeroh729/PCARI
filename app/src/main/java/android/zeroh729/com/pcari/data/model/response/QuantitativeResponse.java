@@ -3,7 +3,9 @@ package android.zeroh729.com.pcari.data.model.response;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class QuantitativeResponse implements Parcelable{
+import io.realm.RealmObject;
+
+public class QuantitativeResponse extends RealmObject implements Parcelable{
     private String id;
     private String questionId;
     private String responseId;
