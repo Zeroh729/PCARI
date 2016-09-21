@@ -5,7 +5,7 @@ import android.zeroh729.com.pcari.data.model.Rating;
 import android.zeroh729.com.pcari.data.model.Survey;
 import android.zeroh729.com.pcari.data.model.response.QualitativeResponse;
 import android.zeroh729.com.pcari.data.model.response.SurveyResponse;
-import android.zeroh729.com.pcari.interactor.FirebaseInteractor.RateResponseSystemImpl;
+import android.zeroh729.com.pcari.interactor.firebaseInteractor.RateResponseSystemImpl;
 
 import java.util.ArrayList;
 

@@ -10,18 +10,19 @@ import java.util.ArrayList;
 
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Admin on 3/8/16.
  */
 public class Survey extends RealmObject implements Parcelable{
+    @PrimaryKey
     private String id;
     private String name;
 
     @Ignore
     private String adminID;
 
-    @Ignore
     private boolean isAvailable;
 
     @Ignore

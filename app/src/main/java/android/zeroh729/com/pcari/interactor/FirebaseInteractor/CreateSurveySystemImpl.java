@@ -1,4 +1,4 @@
-package android.zeroh729.com.pcari.interactor.FirebaseInteractor;
+package android.zeroh729.com.pcari.interactor.firebaseInteractor;
 
 import android.support.annotation.NonNull;
 import android.zeroh729.com.pcari.data.model.Survey;

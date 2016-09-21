@@ -1,7 +1,9 @@
-package android.zeroh729.com.pcari.interactor.FirebaseInteractor;
+package android.zeroh729.com.pcari.interactor.firebaseInteractor;
 
 import android.graphics.Point;
 import android.support.annotation.NonNull;
+import android.zeroh729.com.pcari.Pcari;
+import android.zeroh729.com.pcari.Pcari_;
 import android.zeroh729.com.pcari.data.model.Survey;
 import android.zeroh729.com.pcari.data.model.question.DemographicQuestion;
 import android.zeroh729.com.pcari.data.model.question.QualitativeQuestion;
@@ -29,15 +31,20 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 public class AnswerSurveySystemImpl implements AnswerSurveyPresenter.AnswerSurveySystem{
     private Survey survey;
 
-    private int queryCount;
-    private int completeCount = 0;
-    boolean isAllSuccessful;
-    private BasePresenter.Callback callback;
+    private Realm realm;
+    private RealmConfiguration realmConfig;
+
+    public AnswerSurveySystemImpl() {
+        realmConfig = new RealmConfiguration.Builder(Pcari_.getInstance()).build();
+        realm = Realm.getInstance(realmConfig);
+    }
 
     @Override
     public void loadSurveyQuestions(final FetchCallback fetchCallback) {
@@ -130,54 +137,32 @@ public class AnswerSurveySystemImpl implements AnswerSurveyPresenter.AnswerSurve
 
     @Override
     public void uploadsResponse(final SurveyResponse response, final BasePresenter.Callback callback) {
-        this.callback = callback;
         DatabaseReference surveyRef = FirebaseDatabase.getInstance().getReference().child(DbConstants.CHILD_RESPONSE).child(survey.getId());
         DatabaseReference responseRef = surveyRef.child(DbConstants.CHILD_RESPONSE_DETAILS).push();
-        final DatabaseReference demographicRef = surveyRef.child(DbConstants.CHILD_DEMOGRAPHIC);
-        final DatabaseReference qualitativeRef = surveyRef.child(DbConstants.CHILD_QUALITATIVE);
-        final DatabaseReference quantitativeRef = surveyRef.child(DbConstants.CHILD_QUANTITATIVE);
-        final DatabaseReference coordinatesRef = surveyRef.child(DbConstants.CHILD_COORDINATES);
-
-        queryCount = response.getDemographicResponses().size() + response.getQualitativeResponses().size() + response.getQuantitativeResponses().size() + 1; //+1 for Coordinates
-        completeCount = 0;
-        isAllSuccessful = true;
 
         final String responseId = responseRef.getKey();
-        response.setId(responseId);
         DateFormat format = new SimpleDateFormat("MMMM dd, yyyy hh:mm:ss");
-        responseRef.child(DbConstants.KEY_DATE_CREATED).setValue(format.format(new Date())).addOnSuccessListener(new OnSuccessListener<Void>() {
+        response.setId(responseId);
+        response.setDateCreated(format.format(new Date()));
+        response.setSurveyId(survey.getId());
+        response.setFinishedUploading(false);
+
+        realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
-            public void onSuccess(Void aVoid) {
-                for(DemographicResponse r : response.getDemographicResponses()){
-                    HashMap map = new HashMap();
-                    map.put(DbConstants.KEY_ANSWER, r.getAnswer());
-                    demographicRef.child(r.getQuestionId()).child(responseId).setValue(map).addOnCompleteListener(onCompleteListener);
-                }
-
-                int[] quanAnswers = new int[response.getQuantitativeResponses().size()];
-                int i = 0;
-                for(QuantitativeResponse r : response.getQuantitativeResponses()){
-                    quanAnswers[i++] = r.getAnswer();
-                    HashMap map = new HashMap();
-                    map.put(DbConstants.KEY_ANSWER, r.getAnswer());
-                    quantitativeRef.child(r.getQuestionId()).child(responseId).setValue(map).addOnCompleteListener(onCompleteListener);
-                }
-
-                Point point = AlgorithmUtil.calculatePCA(quanAnswers);
-                HashMap map1 = new HashMap();
-                map1.put(DbConstants.KEY_X, point.x);
-                map1.put(DbConstants.KEY_Y, point.y);
-                coordinatesRef.child(responseId).setValue(map1).addOnCompleteListener(onCompleteListener);
-
-                for(QualitativeResponse r : response.getQualitativeResponses()){
-                    HashMap map = new HashMap();
-                    map.put(DbConstants.KEY_ANSWER, r.getAnswer());
-                    qualitativeRef.child(r.getQuestionId()).child(responseId).setValue(map).addOnCompleteListener(onCompleteListener);
-                }
+            public void execute(Realm realm) {
+                realm.copyToRealm(response.getDemographicResponses());
+                realm.copyToRealm(response.getQuantitativeResponses());
+                realm.copyToRealm(response.getQualitativeResponses());
+                realm.copyToRealm(response);
             }
-        }).addOnFailureListener(new OnFailureListener() {
+        }, new Realm.Transaction.OnSuccess() {
             @Override
-            public void onFailure(@NonNull Exception e) {
+            public void onSuccess() {
+                callback.onSuccess();
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
                 callback.onFail(0);
             }
         });
@@ -188,23 +173,4 @@ public class AnswerSurveySystemImpl implements AnswerSurveyPresenter.AnswerSurve
         SimpleDateFormat format = new SimpleDateFormat("MMMM dd, yyyy hh:mm a");
         response.setDateCreated(format.format(new Date()));
     }
-
-    private OnCompleteListener onCompleteListener = new OnCompleteListener() {
-        @Override
-        public void onComplete(@NonNull Task task) {
-            completeCount++;
-            if(!task.isSuccessful()){
-                isAllSuccessful = false;
-            }
-            if(queryCount == completeCount){
-                if(isAllSuccessful){
-                    callback.onSuccess();
-                }else{
-                    callback.onFail(0);
-                }
-            }
-        }
-    };
-
-
 }

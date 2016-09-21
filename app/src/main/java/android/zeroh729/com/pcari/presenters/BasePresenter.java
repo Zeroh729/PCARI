@@ -1,5 +1,6 @@
 package android.zeroh729.com.pcari.presenters;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 public interface BasePresenter {
@@ -20,6 +21,11 @@ public interface BasePresenter {
 
     interface Callback{
         void onSuccess();
+        void onFail(int errorCode);
+    }
+
+    interface DataCallback<T>{
+        void onSuccess(ArrayList<T> data);
         void onFail(int errorCode);
     }
 }

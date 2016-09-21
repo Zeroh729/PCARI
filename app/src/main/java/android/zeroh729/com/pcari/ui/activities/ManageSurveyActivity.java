@@ -34,7 +34,7 @@ public class ManageSurveyActivity extends BaseActivityDetailsList<Survey> implem
     @Override
     protected ArrayList<Survey> fetchData() {
         if(surveys == null){
-//            surveys = presenter.getSurveys();
+//            surveys = presenter.getAvailableSurveys();
         }
         return surveys;
     }

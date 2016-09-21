@@ -1,4 +1,4 @@
-package android.zeroh729.com.pcari.interactor.FirebaseInteractor;
+package android.zeroh729.com.pcari.interactor.firebaseInteractor;
 
 public class DbConstants {
     public final static String CHILD_SURVEY = "surveys";
@@ -23,6 +23,7 @@ public class DbConstants {
     public final static String KEY_SURVEY_NAME = "surveyName";
     public final static String KEY_SURVEY_DETAILS = "surveyDetails";
     public final static String KEY_DATE_CREATED = "dateCreated";
+    public final static String KEY_IS_UPLOAD_DONE = "isFinishedUploading";
 
     public final static String KEY_ID = "id";
     public final static String KEY_ADMIN_ID = "adminId";

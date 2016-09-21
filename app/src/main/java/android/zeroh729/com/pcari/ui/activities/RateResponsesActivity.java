@@ -253,7 +253,7 @@ public class RateResponsesActivity extends BaseActivityDetailsList<Coordinates> 
 
     @Override
     public void navigateToSuccessScreen() {
-        SuccessFeedbackActivity_.intent(this).extra("survey", survey).start();
+        SuccessFeedbackActivity_.intent(this).extra("survey", survey).extra("response", response).start();
     }
 
     @Override

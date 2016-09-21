@@ -1,6 +1,7 @@
-package android.zeroh729.com.pcari.interactor.FirebaseInteractor;
+package android.zeroh729.com.pcari.interactor.firebaseInteractor;
 
 import android.support.annotation.NonNull;
+import android.zeroh729.com.pcari.Pcari_;
 import android.zeroh729.com.pcari.data.model.Coordinates;
 import android.zeroh729.com.pcari.data.model.Rating;
 import android.zeroh729.com.pcari.data.model.Survey;
@@ -18,8 +19,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 public class RateResponseSystemImpl implements RateResponsePresenter.RateResponseSystem {
     private Survey survey;
@@ -28,8 +30,13 @@ public class RateResponseSystemImpl implements RateResponsePresenter.RateRespons
     private ArrayList<QualitativeResponse> selectedResponse;
     private int answerCounter = 0;
 
+    private RealmConfiguration realmConfig;
+    private Realm realm;
+
     public RateResponseSystemImpl() {
         coordinates = new ArrayList<>();
+        realmConfig = new RealmConfiguration.Builder(Pcari_.getInstance()).build();
+        realm = Realm.getInstance(realmConfig);
     }
 
     @Override
@@ -149,14 +156,21 @@ public class RateResponseSystemImpl implements RateResponsePresenter.RateRespons
             response.getRatings().add(ratings.get(i));
         }
 
-        FirebaseDatabase.getInstance().getReference().child(DbConstants.CHILD_RATINGS).child(survey.getId()).child(selectedResponseId).child(response.getId()).setValue(ratingsList).addOnCompleteListener(new OnCompleteListener<Void>() {
+        realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    callback.onSuccess();
-                }else{
-                    callback.onFail(0);
-                }
+            public void execute(Realm realm) {
+                realm.copyToRealm(response.getRatings());
+                realm.copyToRealmOrUpdate(response);
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                callback.onSuccess();
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                callback.onFail(0);
             }
         });
     }

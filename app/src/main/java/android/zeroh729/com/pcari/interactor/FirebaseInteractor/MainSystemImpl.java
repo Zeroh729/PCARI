@@ -1,10 +1,20 @@
-package android.zeroh729.com.pcari.interactor.FirebaseInteractor;
+package android.zeroh729.com.pcari.interactor.firebaseInteractor;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.zeroh729.com.pcari.Pcari;
+import android.zeroh729.com.pcari.Pcari_;
 import android.zeroh729.com.pcari.data.model.Admin;
 import android.zeroh729.com.pcari.data.model.Survey;
+import android.zeroh729.com.pcari.data.model.response.SurveyResponse;
+import android.zeroh729.com.pcari.interactor.services.UploadService;
+import android.zeroh729.com.pcari.interactor.services.UploadService_;
+import android.zeroh729.com.pcari.interactor.services.UploadThread;
+import android.zeroh729.com.pcari.interactor.services.UploadThread_;
 import android.zeroh729.com.pcari.presenters.BasePresenter;
 import android.zeroh729.com.pcari.presenters.MainPresenter;
+import android.zeroh729.com.pcari.ui.activities.MainActivity;
 import android.zeroh729.com.pcari.util._;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,7 +26,8 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
+import org.androidannotations.annotations.Background;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,6 +35,7 @@ import java.util.HashMap;
 public class MainSystemImpl  implements MainPresenter.MainSystem{
     private FirebaseAuth.AuthStateListener listener;
     private ArrayList<Survey> surveys;
+    private ArrayList<Survey> availableSurveys;
 
     public MainSystemImpl() {
         surveys = new ArrayList<>();
@@ -68,6 +80,9 @@ public class MainSystemImpl  implements MainPresenter.MainSystem{
     @Override
     public Admin getUser() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null)
+            return null;
+
         Admin admin = new Admin();
         admin.setId(user.getUid());
         admin.setUsername(user.getDisplayName());
@@ -88,8 +103,11 @@ public class MainSystemImpl  implements MainPresenter.MainSystem{
     }
 
     @Override
-    public Survey getSurvey(int index) {
-        return surveys.get(index);
+    public Survey getAvailableSurvey(int index) {
+        if(availableSurveys == null){
+            getAvailableSurveys();
+        }
+        return availableSurveys.get(index);
     }
 
     @Override
@@ -135,7 +153,13 @@ public class MainSystemImpl  implements MainPresenter.MainSystem{
     }
 
     @Override
-    public ArrayList<Survey> getSurveys() {
-        return surveys;
+    public ArrayList<Survey> getAvailableSurveys() {
+        availableSurveys = new ArrayList<>();
+        for(Survey survey : surveys){
+            if(survey.isAvailable()){
+                availableSurveys.add(survey);
+            }
+        }
+        return availableSurveys;
     }
 }

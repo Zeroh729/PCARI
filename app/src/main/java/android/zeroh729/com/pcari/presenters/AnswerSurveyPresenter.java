@@ -5,10 +5,9 @@ import android.zeroh729.com.pcari.data.model.question.DemographicQuestion;
 import android.zeroh729.com.pcari.data.model.question.QualitativeQuestion;
 import android.zeroh729.com.pcari.data.model.question.QuantitativeQuestion;
 import android.zeroh729.com.pcari.data.model.response.SurveyResponse;
-import android.zeroh729.com.pcari.interactor.FirebaseInteractor.AnswerSurveySystemImpl;
+import android.zeroh729.com.pcari.interactor.firebaseInteractor.AnswerSurveySystemImpl;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class AnswerSurveyPresenter implements BasePresenter{
     public AnswerSurveySystemImpl system;

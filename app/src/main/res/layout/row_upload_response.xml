@@ -21,25 +21,32 @@
         android:orientation="vertical"
         android:padding="16dp">
         <TextView
-                android:id="@+id/tv_response_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Landslide Survey - Response #1"
-                style="@style/TextAppearance.AppCompat.Headline"/>
+            android:id="@+id/tv_suveryname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Landslide Survey - Response #1"
+            style="@style/TextAppearance.AppCompat.Headline"/>
 
         <TextView
             android:id="@+id/tv_datecreated"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Created 5m ago"/>
+            android:text="Created 5m ago"
+            android:layout_marginBottom="16dp"/>
 
         <ProgressBar
             android:id="@+id/pb_upload"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:max="100"
-            android:progress="10"/>
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Base.TextAppearance.AppCompat.Caption"
+            android:textStyle="italic"
+            android:text="On Hold"/>
 
     </LinearLayout>
 

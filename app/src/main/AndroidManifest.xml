@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="android.zeroh729.com.pcari">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".Pcari_"
         android:allowBackup="true"
@@ -33,6 +36,18 @@
         <activity
             android:name=".ui.activities.AnswerSurveyActivity_"
             android:label="Answer Survey"/>
+        <activity
+            android:name=".ui.activities.UploadResponsesActivity_"
+            android:label="Upload Responses"/>
+
+        <service android:name=".interactor.services.UploadService_"/>
+
+        <receiver android:name=".util.receivers.NetworkChangeReceiver_" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
 
     </application>
 

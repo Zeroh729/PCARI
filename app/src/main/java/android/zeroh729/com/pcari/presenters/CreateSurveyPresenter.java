@@ -3,7 +3,7 @@ package android.zeroh729.com.pcari.presenters;
 import android.zeroh729.com.pcari.data.model.question.DemographicQuestion;
 import android.zeroh729.com.pcari.data.model.question.QualitativeQuestion;
 import android.zeroh729.com.pcari.data.model.question.QuantitativeQuestion;
-import android.zeroh729.com.pcari.interactor.FirebaseInteractor.CreateSurveySystemImpl;
+import android.zeroh729.com.pcari.interactor.firebaseInteractor.CreateSurveySystemImpl;
 
 import java.util.ArrayList;
 

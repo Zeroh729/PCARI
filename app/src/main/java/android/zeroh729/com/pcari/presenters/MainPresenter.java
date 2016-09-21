@@ -1,13 +1,14 @@
 package android.zeroh729.com.pcari.presenters;
 
+import android.support.annotation.Nullable;
 import android.zeroh729.com.pcari.data.model.Admin;
 import android.zeroh729.com.pcari.data.model.Survey;
-import android.zeroh729.com.pcari.interactor.FirebaseInteractor.MainSystemImpl;
-import android.zeroh729.com.pcari.interactor.RealmInteractor.MainLocalDatabaseImpl;
+import android.zeroh729.com.pcari.data.model.response.SurveyResponse;
+import android.zeroh729.com.pcari.interactor.firebaseInteractor.MainSystemImpl;
+import android.zeroh729.com.pcari.interactor.realmInteractor.MainLocalDatabaseImpl;
 import android.zeroh729.com.pcari.util._;
 
 import java.util.ArrayList;
-
 
 public class MainPresenter implements BasePresenter {
     private MainSystem system;
@@ -36,8 +37,8 @@ public class MainPresenter implements BasePresenter {
         system.fetchSurveyList(new Callback() {
             @Override
             public void onSuccess() {
-                screen.updateSurveyList(system.getSurveys());
-                localDatabaseSystem.saveSurveys(system.getSurveys());
+                screen.updateSurveyList(system.getAvailableSurveys());
+                localDatabaseSystem.saveSurveys(system.getAvailableSurveys());
             }
 
             @Override
@@ -102,7 +103,11 @@ public class MainPresenter implements BasePresenter {
     }
 
     public void onClickSurveyItem(int index){
-        screen.navigateToAnswerSurveyScreen(system.getSurvey(index));
+        screen.navigateToAnswerSurveyScreen(system.getAvailableSurvey(index));
+    }
+
+    public void onClickViewResponseUploads() {
+        screen.navigateToResponseUploadsScreen();
     }
 
     public interface MainSystem{
@@ -115,17 +120,18 @@ public class MainPresenter implements BasePresenter {
 
         void logout();
 
+        @Nullable
         Admin getUser();
 
         void setup();
 
         void cleanup();
 
-        Survey getSurvey(int index);
+        Survey getAvailableSurvey(int index);
 
         void fetchSurveyList(Callback callback);
 
-        ArrayList<Survey> getSurveys();
+        ArrayList<Survey> getAvailableSurveys();
     }
 
     public interface MainScreen{
@@ -146,6 +152,8 @@ public class MainPresenter implements BasePresenter {
         void navigateToAnswerSurveyScreen(Survey survey);
 
         void updateSurveyList(ArrayList<Survey> surveys);
+
+        void navigateToResponseUploadsScreen();
     }
 
     public interface MainLocalDatabase{
