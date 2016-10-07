@@ -7,6 +7,7 @@ import android.zeroh729.com.pcari.R;
 import android.zeroh729.com.pcari.data.model.Survey;
 import android.zeroh729.com.pcari.data.model.response.SurveyResponse;
 import android.zeroh729.com.pcari.interactor.services.UploadService;
+import android.zeroh729.com.pcari.interactor.services.UploadService_;
 import android.zeroh729.com.pcari.ui.base.BaseActivity;
 
 import org.androidannotations.annotations.Click;
@@ -25,7 +26,7 @@ public class SuccessFeedbackActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        startService(response.toIntent(new Intent(this, UploadService.class)));
+        startService(new Intent(this, UploadService_.class));
     }
 
     @Click(R.id.btn_another_response)
